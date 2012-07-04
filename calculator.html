@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html><head>
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <script>
+
+    function calculate(id) {
+      checkInput(id);
+      setOp(id);
+    }
+
+    function checkInput(id){
+      var userInput = document.question.userInput.value;
+      var answer = document.getElementById("answer");
+      var inputBox = document.getElementById("inputBox");
+      if(userInput == 0){
+        inputBox.value = "0";
+        answer.innerHTML = "0";
+      }
+      else{
+        if(id == "equals"){
+         applyOp(userInput,inputBox);
+        }
+      }
+    }
+
+    function applyOp(userInput,inputBox){
+      var chosenOp = document.getElementById("sign");
+      if(chosenOp.innerHTML == "*" ){
+        answer.innerHTML = parseInt(userInput)*parseInt(answer.innerHTML);
+      }
+      else if(chosenOp.innerHTML == "+" ){
+        answer.innerHTML = parseInt(userInput)+parseInt(answer.innerHTML);
+      }
+      else {
+        answer.innerHTML = "";
+      }
+      inputBox.value = "0";
+    }
+
+    function setOp(id){
+      if(id == "mult"){
+        sign.innerHTML = "*";
+      }
+      else if(id == "add"){
+        sign.innerHTML = "+";
+      }
+      else{
+        sign.innerHTML = " ";
+      }
+    }
+
+</script>
+</head><body onload="calculate(this.id);">
+  <table>
+  <span class="result" id="answer"></span>
+  <span class="operator" id="sign"></span>
+  <form name="question">
+    <input type="text" name="userInput" id="inputBox"></br>
+    </table>
+    <input type="button" value="*" id="mult" onclick="calculate(this.id);">
+    <input type="button" value="+" id="add" onclick="calculate(this.id);">
+    <input type="button" value="=" id="equals" onclick="calculate(this.id);">
+  </form>
+</body></html>
