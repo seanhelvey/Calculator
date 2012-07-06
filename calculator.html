@@ -1,49 +1,52 @@
-<!DOCTYPE html>
-
 <html><head>
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <script>
+   
+    var opSelected = 0;
 
-    function calculate(id) {
-      checkInput(id);
-      setOp(id);
+    function calculate(pushedButton) {
+      checkInput(pushedButton);
+      setOp(pushedButton);
     }
 
-    function checkInput(id){
-      var userInput = document.question.userInput.value;
+    function checkInput(pushedButton){
+      var textValue = document.inputForm.textBox.value;
       var answer = document.getElementById("answer");
-      var inputBox = document.getElementById("inputBox");
-      if(userInput == 0){
-        inputBox.value = "0";
+      var textBox = document.getElementById("textBox");
+      if(textValue == ""){
+        textBox.value = "0";
         answer.innerHTML = "0";
       }
       else{
-        if(id == "equals"){
-         applyOp(userInput,inputBox);
+        if(pushedButton == "equals"){
+         applyOp(textValue,textBox);
+         opSelected = 0;
         }
       }
     }
 
-    function applyOp(userInput,inputBox){
+    function applyOp(textValue,textBox){
       var chosenOp = document.getElementById("sign");
       if(chosenOp.innerHTML == "*" ){
-        answer.innerHTML = parseInt(userInput)*parseInt(answer.innerHTML);
+        answer.innerHTML = parseInt(textValue)*parseInt(answer.innerHTML);
       }
       else if(chosenOp.innerHTML == "+" ){
-        answer.innerHTML = parseInt(userInput)+parseInt(answer.innerHTML);
+        answer.innerHTML = parseInt(textValue)+parseInt(answer.innerHTML);
       }
       else {
         answer.innerHTML = "";
       }
-      inputBox.value = "0";
+      textBox.value = "0";
     }
 
-    function setOp(id){
-      if(id == "mult"){
+    function setOp(pushedButton){
+      if(pushedButton == "mult"){
         sign.innerHTML = "*";
+        opSelected = 1;
       }
-      else if(id == "add"){
+      else if(pushedButton == "add"){
         sign.innerHTML = "+";
+        opSelected = 1;
       }
       else{
         sign.innerHTML = " ";
@@ -55,8 +58,8 @@
   <table>
   <span class="result" id="answer"></span>
   <span class="operator" id="sign"></span>
-  <form name="question">
-    <input type="text" name="userInput" id="inputBox"></br>
+  <form name="inputForm">
+    <input type="text" name="textBox" id="textBox"></br>
     </table>
     <input type="button" value="*" id="mult" onclick="calculate(this.id);">
     <input type="button" value="+" id="add" onclick="calculate(this.id);">
